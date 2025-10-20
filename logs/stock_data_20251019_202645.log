@@ -1,0 +1,115 @@
+======================================================================
+LOG file: logs/stock_data_20251019_202645.log
+Start time: 2025-10-19 20:26:45
+======================================================================
+======================================================================
+CHƯƠNG TRÌNH LẤY DỮ LIỆU CỔ PHIẾU TỪ VNSTOCK
+======================================================================
+Các mã cổ phiếu: ACB, BID, VCB, MBB, FPT
+Thời gian: 2025-01-01 đến 2025-10-01
+======================================================================
+
+Đang lấy dữ liệu cho mã ACB từ TCBS...
+✓ Lấy thành công 250 dòng dữ liệu cho ACB từ TCBS
+Đang lấy dữ liệu cho mã BID từ TCBS...
+✓ Lấy thành công 250 dòng dữ liệu cho BID từ TCBS
+Đang lấy dữ liệu cho mã VCB từ TCBS...
+✓ Lấy thành công 250 dòng dữ liệu cho VCB từ TCBS
+Đang lấy dữ liệu cho mã MBB từ TCBS...
+✓ Lấy thành công 250 dòng dữ liệu cho MBB từ TCBS
+Đang lấy dữ liệu cho mã FPT từ TCBS...
+✓ Lấy thành công 250 dòng dữ liệu cho FPT từ TCBS
+
+======================================================================
+THỐNG KÊ DỮ LIỆU
+======================================================================
+Tổng số dòng (RAW): 920
+
+Số dòng theo từng mã cổ phiếu:
+symbol
+ACB    184
+BID    184
+FPT    184
+MBB    184
+VCB    184
+Name: count, dtype: int64
+
+Mẫu dữ liệu (5 dòng đầu):
+        time    open    high     low   close    volume symbol
+0 2025-01-02   21.39   21.47   21.22   21.39   4571487    ACB
+1 2025-01-02   37.78   38.22   37.48   37.78   3162931    BID
+2 2025-01-02  131.49  131.66  129.42  131.06   3179535    FPT
+3 2025-01-02   16.42   16.61   16.35   16.45  12444481    MBB
+4 2025-01-02   60.83   61.43   60.76   61.03   1631368    VCB
+
+======================================================================
+TÍNH TOÁN CHỈ SỐ KỸ THUẬT
+======================================================================
+Lấy thêm lookback từ: 2023-11-28 đến 2025-10-01 để tính chỉ báo dài, nhưng output sẽ bị cắt về [2025-01-01..2025-10-01].
+Đang lấy dữ liệu cho mã ACB từ TCBS...
+✓ Lấy thành công 481 dòng dữ liệu cho ACB từ TCBS
+Đang lấy dữ liệu cho mã BID từ TCBS...
+✓ Lấy thành công 481 dòng dữ liệu cho BID từ TCBS
+Đang lấy dữ liệu cho mã VCB từ TCBS...
+✓ Lấy thành công 481 dòng dữ liệu cho VCB từ TCBS
+Đang lấy dữ liệu cho mã MBB từ TCBS...
+✓ Lấy thành công 481 dòng dữ liệu cho MBB từ TCBS
+Đang lấy dữ liệu cho mã FPT từ TCBS...
+✓ Lấy thành công 481 dòng dữ liệu cho FPT từ TCBS
+
+Xử lý mã ACB...
+Đang tính toán chỉ số kỹ thuật...
+✓ Đã tính toán xong các chỉ số kỹ thuật!
+  - Số lượng chỉ số đã thêm: 60
+
+Xử lý mã BID...
+Đang tính toán chỉ số kỹ thuật...
+✓ Đã tính toán xong các chỉ số kỹ thuật!
+  - Số lượng chỉ số đã thêm: 60
+
+Xử lý mã FPT...
+Đang tính toán chỉ số kỹ thuật...
+✓ Đã tính toán xong các chỉ số kỹ thuật!
+  - Số lượng chỉ số đã thêm: 60
+
+Xử lý mã MBB...
+Đang tính toán chỉ số kỹ thuật...
+✓ Đã tính toán xong các chỉ số kỹ thuật!
+  - Số lượng chỉ số đã thêm: 60
+
+Xử lý mã VCB...
+Đang tính toán chỉ số kỹ thuật...
+✓ Đã tính toán xong các chỉ số kỹ thuật!
+  - Số lượng chỉ số đã thêm: 60
+
+Đối chiếu số dòng giữa RAW và WITH_INDICATORS...
+  - RAW rows: 920
+  - IND rows: 920
+
+Loại bỏ cột ít dữ liệu: ['PSAR_up', 'PSAR_down'] (giữ PSAR_filled, PSAR_side)
+
+✓ Đã lưu dữ liệu vào file: stock_data_2025_with_indicators.csv
+  - Tổng số dòng: 920
+  - Các cột: time, open, high, low, close, volume, symbol, SMA_5, SMA_10, SMA_20, SMA_50, SMA_200, EMA_5, EMA_10, EMA_20, EMA_50, RSI_14, RSI_7, MACD, MACD_signal, MACD_diff, BB_upper, BB_middle, BB_lower, BB_width, BB_pband, Stoch_K, Stoch_D, ATR_14, ADX, ADX_pos, ADX_neg, OBV, CCI_20, Williams_R, MFI_14, ROC_10, PSAR, PSAR_merged, PSAR_side, PSAR_filled, VWAP, Ichimoku_a, Ichimoku_b, Ichimoku_base, Ichimoku_conv, TRIX, KST, KST_signal, CMF, Force_Index, EOM, Keltner_upper, Keltner_middle, Keltner_lower, Donchian_upper, Donchian_middle, Donchian_lower, Ulcer_Index, Daily_Return, Price_Change, Price_Change_Pct, HL_Range, HL_Range_Pct, Volume_Change_Pct
+  - Thời gian: 2025-01-02 00:00:00 đến 2025-10-01 00:00:00
+
+✓ Đã lưu dữ liệu vào file: stock_data_2025_raw.csv
+  - Tổng số dòng: 920
+  - Các cột: time, open, high, low, close, volume, symbol
+  - Thời gian: 2025-01-02 00:00:00 đến 2025-10-01 00:00:00
+
+======================================================================
+MẪU DỮ LIỆU WITH_INDICATORS (5 DÒNG ĐẦU)
+======================================================================
+        time    open    high     low   close    volume symbol  ...  Ulcer_Index  Daily_Return  Price_Change  Price_Change_Pct  HL_Range  HL_Range_Pct  Volume_Change_Pct
+0 2025-01-02   21.39   21.47   21.22   21.39   4571487    ACB  ...     2.078486     -0.788497          0.00          0.000000      0.25      1.178134         -48.313984
+1 2025-01-02   37.78   38.22   37.48   37.78   3162931    BID  ...     1.527322      1.723209          0.00          0.000000      0.74      1.974386          -7.464255
+2 2025-01-02  131.49  131.66  129.42  131.06   3179535    FPT  ...     0.810014     -0.327021         -0.43         -0.327021      2.24      1.730799         -11.988967
+3 2025-01-02   16.42   16.61   16.35   16.45  12444481    MBB  ...     1.557583      0.427350          0.03          0.182704      0.26      1.590214          10.640052
+4 2025-01-02   60.83   61.43   60.76   61.03   1631368    VCB  ...     2.635300      0.776090          0.20          0.328785      0.67      1.102699         -31.319178
+
+[5 rows x 65 columns]
+
+======================================================================
+HOÀN THÀNH!
+======================================================================

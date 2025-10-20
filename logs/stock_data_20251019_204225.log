@@ -1,0 +1,53 @@
+======================================================================
+LOG file: logs/stock_data_20251019_204225.log
+Start time: 2025-10-19 20:42:25
+======================================================================
+======================================================================
+CHƯƠNG TRÌNH LẤY DỮ LIỆU CỔ PHIẾU TỪ VNSTOCK
+======================================================================
+Các mã cổ phiếu: ACB, BID, VCB, MBB, FPT
+Thời gian: 2015-01-01 đến 2025-10-01
+======================================================================
+
+Đang lấy dữ liệu cho mã ACB từ TCBS...
+✓ Lấy thành công 2748 dòng dữ liệu cho ACB từ TCBS
+Đang lấy dữ liệu cho mã BID từ TCBS...
+✓ Lấy thành công 2748 dòng dữ liệu cho BID từ TCBS
+Đang lấy dữ liệu cho mã VCB từ TCBS...
+✓ Lấy thành công 2748 dòng dữ liệu cho VCB từ TCBS
+Đang lấy dữ liệu cho mã MBB từ TCBS...
+✓ Lấy thành công 2748 dòng dữ liệu cho MBB từ TCBS
+Đang lấy dữ liệu cho mã FPT từ TCBS...
+✓ Lấy thành công 2748 dòng dữ liệu cho FPT từ TCBS
+
+======================================================================
+THỐNG KÊ DỮ LIỆU
+======================================================================
+Tổng số dòng (RAW): 13397
+
+Số dòng theo từng mã cổ phiếu:
+symbol
+ACB    2677
+BID    2680
+FPT    2680
+MBB    2680
+VCB    2680
+Name: count, dtype: int64
+
+Mẫu dữ liệu (5 dòng đầu):
+        time  open  high   low  close  volume symbol
+0 2015-01-05  2.35  2.34  2.31   2.34   55888    ACB
+1 2015-01-05  5.84  5.89  5.84   5.84   66380    BID
+2 2015-01-05  7.34  7.37  7.28   7.31  273550    FPT
+3 2015-01-05  2.31  2.31  2.29   2.29  338650    MBB
+4 2015-01-05  9.32  9.44  9.23   9.38  310010    VCB
+
+======================================================================
+TÍNH TOÁN CHỈ SỐ KỸ THUẬT
+======================================================================
+Lấy thêm lookback từ: 2013-11-27 đến 2025-10-01 để tính chỉ báo dài, nhưng output sẽ bị cắt về [2015-01-01..2025-10-01].
+Đang lấy dữ liệu cho mã ACB từ TCBS...
+
+⚠️ Bạn đã gửi quá nhiều request tới TCBS. Vui lòng thử lại sau 2 giây.
+
+Rate limit exceeded. Bạn đã gửi quá nhiều request tới TCBS. Vui lòng thử lại sau 2 giây. Process terminated.

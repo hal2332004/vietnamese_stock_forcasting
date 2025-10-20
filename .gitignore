@@ -1,0 +1,6 @@
+# *.csv
+.ipynb_checkpoints/
+charts/
+# logs/
+__pycache__/
+*.pyc
