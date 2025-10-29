@@ -25,7 +25,7 @@ import os
 STOCK_SYMBOLS = ['ACB', 'BID', 'VCB', 'MBB', 'FPT']
 
 # Thời gian OUTPUT cần giữ lại (cắt nghiêm ngặt trước khi lưu)
-START_DATE = '2015-01-01'
+START_DATE = '2015-10-01'
 END_DATE = '2025-10-01'  # inclusive
 
 # Số ngày lùi để tính các chỉ báo dài (vd: SMA_200) nhưng vẫn cắt output đúng range
