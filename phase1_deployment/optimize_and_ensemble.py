@@ -204,23 +204,24 @@ class OptimizedEnsemble:
     
     def tune_lightgbm(self):
         """
-        Hyperparameter tuning for LightGBM using GridSearchCV
+        Hyperparameter tuning for LightGBM using RandomizedSearchCV (faster)
         """
         logger.info("\n" + "="*80)
         logger.info("HYPERPARAMETER TUNING - LIGHTGBM")
         logger.info("="*80)
         
-        # Parameter grid
+        # Smaller parameter grid
         param_grid = {
             'learning_rate': [0.03, 0.05, 0.1],
-            'num_leaves': [20, 31, 50],
-            'max_depth': [4, 6, 8],
-            'min_child_samples': [10, 20, 30],
+            'num_leaves': [20, 31],
+            'max_depth': [6, 8],
+            'min_child_samples': [20, 30],
             'n_estimators': [300, 500]
         }
         
         logger.info(f"Parameter grid: {param_grid}")
         logger.info(f"Total combinations: {np.prod([len(v) for v in param_grid.values()])}")
+        logger.info(f"Using RandomizedSearchCV with 20 iterations")
         
         # TimeSeriesSplit
         tscv = TimeSeriesSplit(n_splits=3)
@@ -231,26 +232,28 @@ class OptimizedEnsemble:
             verbose=-1
         )
         
-        # GridSearchCV
-        grid_search = GridSearchCV(
+        # RandomizedSearchCV (faster than GridSearchCV)
+        random_search = RandomizedSearchCV(
             estimator=base_model,
-            param_grid=param_grid,
+            param_distributions=param_grid,
+            n_iter=20,  # Try 20 random combinations
             cv=tscv,
             scoring='neg_mean_absolute_error',
             n_jobs=-1,
-            verbose=1
+            verbose=1,
+            random_state=42
         )
         
-        logger.info("Starting grid search (this may take a while)...")
-        grid_search.fit(self.X_train, self.y_train)
+        logger.info("Starting randomized search...")
+        random_search.fit(self.X_train, self.y_train)
         
-        logger.info(f"✅ Grid search complete!")
-        logger.info(f"   Best params: {grid_search.best_params_}")
-        logger.info(f"   Best CV score (neg MAE): {grid_search.best_score_:.6f}")
+        logger.info(f"✅ Randomized search complete!")
+        logger.info(f"   Best params: {random_search.best_params_}")
+        logger.info(f"   Best CV score (neg MAE): {random_search.best_score_:.6f}")
         
         # Train final model
         self.best_lightgbm = lgb.LGBMRegressor(
-            **grid_search.best_params_,
+            **random_search.best_params_,
             random_state=42,
             verbose=-1
         )
