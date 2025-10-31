@@ -1,11 +1,14 @@
 """
-Hyperparameter Tuning & Ensemble Methods
-==========================================
-1. GridSearchCV for CatBoost and LightGBM
-2. Train optimized models on selected features
-3. Ensemble: Weighted Average + Stacking
+Advanced Ensemble Methods for Stock Forecasting
+================================================
+Combines multiple tuned models using sophisticated ensemble techniques:
+1. Weighted Average (optimized weights)
+2. Stacking with Ridge meta-learner
+3. Voting Ensemble
+4. Dynamic Weighting (based on recent performance)
 
-Target: R² > 0.05, Directional Accuracy > 50%
+Input: Tuned models from hyperparameter_tuning.py
+Target: R² > 0.05, Directional Accuracy > 52%
 """
 
 import pandas as pd
@@ -20,9 +23,14 @@ from sklearn.model_selection import TimeSeriesSplit, GridSearchCV, RandomizedSea
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, make_scorer
 from sklearn.linear_model import Ridge
+from sklearn.ensemble import VotingRegressor
 
 from catboost import CatBoostRegressor
 import lightgbm as lgb
+import xgboost as xgb
+
+import joblib
+from scipy.optimize import minimize
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

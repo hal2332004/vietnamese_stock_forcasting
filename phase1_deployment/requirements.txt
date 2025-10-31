@@ -1,0 +1,28 @@
+# Vietnamese Stock Forecasting - Requirements
+# Core Data Science
+numpy
+pandas
+scipy
+
+# Visualization
+matplotlib
+seaborn
+
+# Machine Learning
+scikit-learn
+xgboost
+catboost
+lightgbm
+
+# Natural Language Processing (for Vietnamese sentiment)
+transformers
+torch
+sentencepiece
+
+# Hyperparameter Optimization (optional but recommended)
+optuna
+
+# Utilities
+joblib
+tqdm
+python-dateutil

@@ -1,0 +1,46 @@
+
+============================================================
+XGBoost Best Parameters:
+============================================================
+  max_depth: 8
+  learning_rate: 0.07194720880168262
+  n_estimators: 500
+  min_child_weight: 4
+  subsample: 0.7799633545944332
+  colsample_bytree: 0.9402468530565207
+  gamma: 0.09680487812661495
+  reg_alpha: 0.1477626503808998
+  reg_lambda: 1.884277548509175
+  objective: reg:squarederror
+  random_state: 42
+  n_jobs: -1
+
+============================================================
+CatBoost Best Parameters:
+============================================================
+  iterations: 1000
+  learning_rate: 0.09191138746846145
+  depth: 5
+  l2_leaf_reg: 0.26933545252474206
+  min_data_in_leaf: 43
+  random_strength: 0.8333820110177285
+  bagging_temperature: 0.09015697442028685
+  random_seed: 42
+  verbose: False
+
+============================================================
+LightGBM Best Parameters:
+============================================================
+  num_leaves: 78
+  learning_rate: 0.05381321156301808
+  n_estimators: 500
+  max_depth: 9
+  min_child_samples: 24
+  subsample: 0.772806938450915
+  colsample_bytree: 0.6629829115269752
+  reg_alpha: 0.3525834258108911
+  reg_lambda: 0.7122955360915613
+  objective: regression
+  random_state: 42
+  n_jobs: -1
+  verbose: -1
