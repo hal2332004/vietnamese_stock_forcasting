@@ -532,8 +532,8 @@ def extract_cafef_content(url):
     except:
         return None, None, None
 
-def save_batch_to_csv(batch, output_files, write_header=False):
-    """Save batch to CSV (thread-safe) - separate file for each ticker"""
+def save_batch_to_csv(batch, output_file, write_header=False):
+    """Save batch to CSV (thread-safe) - GROUP BY TICKER"""
     with csv_lock:
         # Group by ticker
         ticker_batches = {}
@@ -543,33 +543,33 @@ def save_batch_to_csv(batch, output_files, write_header=False):
                 ticker_batches[ticker] = []
             ticker_batches[ticker].append(row)
         
-        # Save each ticker to its own file
-        for ticker, rows in ticker_batches.items():
-            output_file = output_files.get(ticker)
-            if not output_file:
-                continue
+        # Save to separate files per ticker
+        for ticker, ticker_batch in ticker_batches.items():
+            ticker_file = output_file.replace('.csv', f'_{ticker}.csv')
             
-            mode = 'w' if write_header else 'a'
-            with open(output_file, mode, encoding="utf-8", newline="") as f:
+            # Check if file exists to determine if header needed
+            file_exists = os.path.exists(ticker_file)
+            
+            mode = 'a'
+            with open(ticker_file, mode, encoding="utf-8", newline="") as f:
                 writer = csv.DictWriter(f, fieldnames=["date", "time", "title", "content", "ticker", "source"])
-                if write_header:
+                if not file_exists or write_header:
                     writer.writeheader()
-                for row in rows:
+                for row in ticker_batch:
                     writer.writerow(row)
 
-def crawl_multi_source(output_files):
-    """Main crawler - crawl từ nhiều nguồn - SEPARATE FILES"""
+def crawl_multi_source(output_file):
+    """Main crawler - crawl từ nhiều nguồn - SAVE SEPARATE FILES PER TICKER"""
     batch = []
     
-    # Initialize all ticker files with headers
-    for ticker, output_file in output_files.items():
-        with open(output_file, 'w', encoding="utf-8", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=["date", "time", "title", "content", "ticker", "source"])
-            writer.writeheader()
+    # Initialize separate files for each ticker
+    for ticker in TICKERS:
+        ticker_file = output_file.replace('.csv', f'_{ticker}.csv')
+        if os.path.exists(ticker_file):
+            os.remove(ticker_file)  # Remove old file if exists
     
     total_records = 0
     ticker_year_stats = {}
-    ticker_totals = {ticker: 0 for ticker in TICKERS}
     
     print("\n" + "="*70, file=sys.stderr)
     print("🌐 MULTI-SOURCE NEWS CRAWLER", file=sys.stderr)
@@ -578,7 +578,7 @@ def crawl_multi_source(output_files):
     print(f"[INFO] Period: {START_DATE.year}-{END_DATE.year}", file=sys.stderr)
     print(f"[INFO] Tickers: {', '.join(TICKERS)}", file=sys.stderr)
     print(f"[INFO] Target: 250+ articles/ticker/year", file=sys.stderr)
-    print(f"[INFO] Output: Separate CSV file for each ticker", file=sys.stderr)
+    print(f"[INFO] Output: Separate CSV file per ticker", file=sys.stderr)
     
     # Crawl theo từng NĂM và TICKER
     for year in range(START_DATE.year, END_DATE.year + 1):
@@ -635,10 +635,9 @@ def crawl_multi_source(output_files):
                             batch.append(result)
                             total_records += 1
                             ticker_year_count += 1
-                            ticker_totals[result['ticker']] += 1
                             
                             if len(batch) >= BATCH_SIZE:
-                                save_batch_to_csv(batch, output_files)
+                                save_batch_to_csv(batch, output_file)
                                 print(f"[SAVE] ✅ Saved {len(batch)} records. Total: {total_records}", file=sys.stderr)
                                 batch = []
                     except Exception as e:
@@ -649,10 +648,10 @@ def crawl_multi_source(output_files):
     
     # Save final batch
     if batch:
-        save_batch_to_csv(batch, output_files)
+        save_batch_to_csv(batch, output_file)
         print(f"\n[SAVE] ✅ Saved final batch of {len(batch)} records", file=sys.stderr)
     
-    # Print summary by year
+    # Print summary
     print("\n" + "="*70, file=sys.stderr)
     print("📊 SUMMARY BY YEAR AND TICKER:", file=sys.stderr)
     print("="*70, file=sys.stderr)
@@ -663,16 +662,7 @@ def crawl_multi_source(output_files):
             count = ticker_year_stats.get(f"{year}_{ticker}", 0)
             print(f"  {ticker}: {count:>4} articles", file=sys.stderr)
     
-    # Print total by ticker
-    print("\n" + "="*70, file=sys.stderr)
-    print("📊 TOTAL BY TICKER (ALL YEARS):", file=sys.stderr)
-    print("="*70, file=sys.stderr)
-    for ticker in TICKERS:
-        count = ticker_totals[ticker]
-        avg_per_year = count / (END_DATE.year - START_DATE.year + 1)
-        print(f"  {ticker}: {count:>5} articles ({avg_per_year:.1f}/year)", file=sys.stderr)
-    
-    return total_records, ticker_totals
+    return total_records
 
 if __name__ == "__main__":
     print("="*70)
@@ -681,22 +671,20 @@ if __name__ == "__main__":
     print(f"[INFO] Date range: {START_DATE.date()} to {END_DATE.date()}", file=sys.stderr)
     print(f"[INFO] Tickers: {', '.join(TICKERS)}", file=sys.stderr)
     
-    # Create output file dictionary - one file per ticker
-    output_files = {}
+    output_file = f"news_{START_DATE.year}_{END_DATE.year}.csv"  # Base filename
+    
+    # Check if any ticker files exist
+    existing_files = []
     for ticker in TICKERS:
-        output_files[ticker] = f"news_{ticker}_{START_DATE.year}_{END_DATE.year}.csv"
+        ticker_file = output_file.replace('.csv', f'_{ticker}.csv')
+        if os.path.exists(ticker_file):
+            existing_files.append(ticker_file)
     
-    print(f"\n[INFO] Output files:")
-    for ticker, filename in output_files.items():
-        print(f"  {ticker}: {filename}")
-    
-    # Check if any files exist
-    existing_files = [f for f in output_files.values() if os.path.exists(f)]
     if existing_files:
-        print(f"\n[WARNING] {len(existing_files)} file(s) already exist:")
+        print(f"\n[WARNING] Found existing files:")
         for f in existing_files:
             print(f"  - {f}")
-        choice = input("Overwrite all? (y/n): ")
+        choice = input("Overwrite? (y/n): ")
         if choice.lower() != 'y':
             print("[INFO] Crawl cancelled")
             sys.exit(0)
@@ -706,33 +694,28 @@ if __name__ == "__main__":
     print("="*70)
     
     try:
-        total, ticker_totals = crawl_multi_source(output_files)
+        total = crawl_multi_source(output_file)
         
         elapsed = time.time() - start_time
         print("\n" + "="*70)
-        print(f"[SUCCESS] ✅ Saved {total} articles to {len(TICKERS)} files")
+        print(f"[SUCCESS] ✅ Saved {total} articles")
         print(f"[TIME] ⏱️  Duration: {elapsed/60:.2f} minutes ({elapsed:.1f} seconds)")
         print(f"[SPEED] 🚄 Speed: {total/(elapsed/60):.1f} articles/minute")
         print("="*70)
         
-        # Final statistics with file sizes
-        print("\n📊 Final Statistics by File:")
+        # Final statistics - Read from separate files
+        print("\n📊 Final Statistics (by file):")
         for ticker in TICKERS:
-            filename = output_files[ticker]
-            count = ticker_totals[ticker]
-            
-            # Get file size
-            if os.path.exists(filename):
-                file_size = os.path.getsize(filename) / (1024 * 1024)  # MB
-                print(f"  {ticker}: {count:>5} articles | {file_size:>6.2f} MB | {filename}")
+            ticker_file = output_file.replace('.csv', f'_{ticker}.csv')
+            if os.path.exists(ticker_file):
+                with open(ticker_file, 'r', encoding='utf-8') as f:
+                    count = sum(1 for line in f) - 1  # Exclude header
+                print(f"  {ticker}: {count:>5} articles → {ticker_file}")
             else:
-                print(f"  {ticker}: {count:>5} articles | File not created")
-        
-        print("\n✅ All done! Each ticker has its own CSV file for easy processing.")
+                print(f"  {ticker}: {0:>5} articles → {ticker_file} (not created)")
         
     except KeyboardInterrupt:
         print("\n[INFO] ⚠️  Interrupted by user")
-        print("[INFO] Partial data saved to individual ticker files")
     except Exception as e:
         print(f"\n[ERROR] ❌ {e}", file=sys.stderr)
         import traceback
