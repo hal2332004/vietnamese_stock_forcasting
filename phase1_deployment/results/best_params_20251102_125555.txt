@@ -1,0 +1,17 @@
+
+============================================================
+LightGBM Best Parameters:
+============================================================
+  num_leaves: 78
+  learning_rate: 0.017078962140149888
+  n_estimators: 100
+  max_depth: 4
+  min_child_samples: 16
+  subsample: 0.8773995919803825
+  colsample_bytree: 0.9533488556444156
+  reg_alpha: 0.5574572289330952
+  reg_lambda: 1.205340125372686
+  objective: regression
+  random_state: 42
+  n_jobs: -1
+  verbose: -1
