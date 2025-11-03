@@ -5,4 +5,5 @@ charts/
 __pycache__/
 *.pyc
 .env
-.Reinforcement_learning
+.Reinforcement_learningnode_modules/
+dist/

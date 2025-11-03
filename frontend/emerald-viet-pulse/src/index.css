@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Emerald & Black Theme - Vietnamese Stock Market Dashboard */
+    --background: 0 0% 0%;
+    --foreground: 210 20% 98%;
+
+    --card: 0 0% 4%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 210 20% 98%;
+
+    /* Emerald Green Primary */
+    --primary: 160 84% 39%;
+    --primary-hover: 160 84% 30%;
+    --primary-active: 160 89% 25%;
+    --primary-foreground: 0 0% 0%;
+
+    /* Secondary Blacks */
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 214 15% 65%;
+
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 0%;
+
+    /* Sentiment Colors */
+    --positive: 160 84% 39%;
+    --negative: 0 84% 60%;
+    --neutral: 214 15% 65%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 10%;
+    --ring: 160 84% 39%;
+
+    --radius: 0.75rem;
+
+    /* Glassmorphism */
+    --glass-bg: 0 0% 4% / 0.6;
+    --glass-border: 0 0% 20% / 0.3;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(160 84% 39%) 0%, hsl(0 0% 0%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 6%) 0%, hsl(0 0% 3%) 100%);
+    
+    /* Shadows */
+    --shadow-glow: 0 0 40px hsl(160 84% 39% / 0.15);
+    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 2%;
+    --sidebar-foreground: 210 20% 98%;
+    --sidebar-primary: 160 84% 39%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 8%;
+    --sidebar-accent-foreground: 210 20% 98%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 160 84% 39%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
