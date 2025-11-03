@@ -1,4 +1,4 @@
-import { BarChart3, LineChart, Newspaper, TrendingUp, Settings } from "lucide-react";
+import { BarChart3, LineChart, Newspaper, TrendingUp, Settings, Brain } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import {
   Sidebar as SidebarUI,
@@ -17,6 +17,7 @@ const menuItems = [
   { title: "Stocks", url: "/stocks", icon: TrendingUp },
   { title: "News", url: "/news", icon: Newspaper },
   { title: "Sentiment", url: "/sentiment", icon: LineChart },
+  { title: "Model Inference", url: "/model-inference", icon: Brain },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 

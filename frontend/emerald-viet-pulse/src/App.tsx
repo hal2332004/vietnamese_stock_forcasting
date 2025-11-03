@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Stocks from "./pages/Stocks";
 import News from "./pages/News";
 import Sentiment from "./pages/Sentiment";
+import ModelInference from "./pages/ModelInference";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/stocks" element={<Stocks />} />
             <Route path="/news" element={<News />} />
             <Route path="/sentiment" element={<Sentiment />} />
+            <Route path="/model-inference" element={<ModelInference />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -15,4 +15,21 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      // Ignore source map errors from dependencies
+      logLevel: 'silent',
+    },
+  },
+  build: {
+    // Ignore source map warnings in production builds too
+    sourcemap: false,
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Suppress source map warnings
+        if (warning.code === 'SOURCEMAP_ERROR') return;
+        warn(warning);
+      },
+    },
+  },
 }));
