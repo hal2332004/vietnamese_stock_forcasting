@@ -4,3 +4,5 @@ charts/
 # logs/
 __pycache__/
 *.pyc
+.env
+.Reinforcement_learning

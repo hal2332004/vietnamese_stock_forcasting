@@ -1,7 +1,0 @@
-vnstock3
-pandas
-numpy
-ta
-openpyxl
-matplotlib
-seaborn
